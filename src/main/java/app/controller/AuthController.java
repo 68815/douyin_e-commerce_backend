@@ -1,30 +1,21 @@
 package app.controller;
 
 import app.entity.User;
-import app.service.IUserService;
 import app.service.AuthService;
-import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**
- * <p>
- *  用户控制器
- * </p>
- *
- * @author 0109
- * @since 2025-07-19
+ * 认证控制器
+ * 处理用户登录、注册、登出等认证相关操作
  */
 @RestController
-@RequestMapping("/user")
-public class UserController {
-
-    @Autowired
-    private IUserService userService;
+@RequestMapping("/auth")
+public class AuthController {
 
     @Autowired
     private AuthService authService;
@@ -63,10 +54,10 @@ public class UserController {
     }
 
     /**
-     * 获取当前用户信息（需要登录）
+     * 获取当前用户信息
      */
-    @GetMapping("/current")
-    public Map<String, Object> getCurrentUser() {
+    @GetMapping("/userInfo")
+    public Map<String, Object> getUserInfo() {
         Map<String, Object> result = new java.util.HashMap<>();
         User user = authService.getCurrentUser();
         if (user != null) {
@@ -91,44 +82,35 @@ public class UserController {
     }
 
     /**
-     * 获取用户列表（需要登录）
+     * 获取令牌信息
      */
-    @GetMapping("/list")
-    @SaCheckLogin
-    public List<User> listUsers() {
-        return userService.list();
+    @GetMapping("/tokenInfo")
+    public SaTokenInfo getTokenInfo() {
+        return authService.getTokenInfo();
     }
 
     /**
-     * 根据ID获取用户信息（需要登录）
+     * 封禁用户（管理员功能）
      */
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.getById(id);
-    }
-
-    /**
-     * 更新用户信息（需要登录）
-     */
-    @PutMapping("/{id}")
-    public Map<String, Object> updateUser(@PathVariable Long id, @RequestBody User user) {
-        user.setId(id);
-        boolean success = userService.updateById(user);
+    @PostMapping("/ban/{userId}")
+    public Map<String, Object> banUser(@PathVariable Long userId, 
+                                      @RequestParam(defaultValue = "3600") long time) {
+        authService.banUser(userId, time);
         Map<String, Object> result = new java.util.HashMap<>();
-        result.put("success", success);
-        result.put("message", success ? "更新成功" : "更新失败");
+        result.put("success", true);
+        result.put("message", "用户封禁成功");
         return result;
     }
 
     /**
-     * 删除用户（需要登录）
+     * 解封用户（管理员功能）
      */
-    @DeleteMapping("/{id}")
-    public Map<String, Object> deleteUser(@PathVariable Long id) {
-        boolean success = userService.removeById(id);
+    @PostMapping("/unban/{userId}")
+    public Map<String, Object> unbanUser(@PathVariable Long userId) {
+        authService.unbanUser(userId);
         Map<String, Object> result = new java.util.HashMap<>();
-        result.put("success", success);
-        result.put("message", success ? "删除成功" : "删除失败");
+        result.put("success", true);
+        result.put("message", "用户解封成功");
         return result;
     }
 }
