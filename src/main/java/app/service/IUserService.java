@@ -3,6 +3,7 @@ package app.service;
 import app.entity.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.Map;
 
 
 /**
@@ -32,9 +33,12 @@ public interface IUserService extends IService<User> {
     boolean updateUser(User user);
 
     /**
-     * 根据用户名获取用户信息
+     * 登录
      * @param username 用户名
-     * @return 用户信息
+     * @param password 密码
+     * @return 登录结果
      */
-    User getUserByUsername(String username);
+    Map<String, Object> login(String username, String password);
+
+    Map<String, Object> insert(User user);
 }

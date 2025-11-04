@@ -2,8 +2,9 @@ package app.controller;
 
 import app.entity.User;
 import app.service.IUserService;
-import app.service.AuthService;
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.annotation.SaCheckRole;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,16 +27,17 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @Autowired
-    private AuthService authService;
-
     /**
      * 用户登录
      */
     @PostMapping("/login")
     public Map<String, Object> login(@RequestParam String username, 
                                     @RequestParam String password) {
-        return authService.login(username, password);
+        Map<String, Object> result = userService.login(username, password);
+        if((boolean)result.get("success")){
+            StpUtil.login(username);
+        }
+        return result;
     }
 
     /**
@@ -43,50 +45,29 @@ public class UserController {
      */
     @PostMapping("/register")
     public Map<String, Object> register(@RequestBody User user) {
-        Map<String, Object> result = new java.util.HashMap<>();
-        boolean success = authService.register(user);
-        result.put("success", success);
-        result.put("message", success ? "注册成功" : "用户名已存在");
-        return result;
+        return userService.insert(user);
     }
 
     /**
      * 用户登出
      */
     @PostMapping("/logout")
+    @SaCheckLogin
     public Map<String, Object> logout() {
-        authService.logout();
-        Map<String, Object> result = new java.util.HashMap<>();
-        result.put("success", true);
-        result.put("message", "登出成功");
-        return result;
+        StpUtil.logout();
+        return Map.of("success", true, "message", "登出成功");
     }
 
     /**
      * 获取当前用户信息（需要登录）
      */
     @GetMapping("/current")
+    @SaCheckLogin
     public Map<String, Object> getCurrentUser() {
+        User user = userService.getById(StpUtil.getLoginIdAsLong());
         Map<String, Object> result = new java.util.HashMap<>();
-        User user = authService.getCurrentUser();
-        if (user != null) {
-            result.put("success", true);
-            result.put("user", user);
-        } else {
-            result.put("success", false);
-            result.put("message", "用户未登录");
-        }
-        return result;
-    }
-
-    /**
-     * 检查登录状态
-     */
-    @GetMapping("/checkLogin")
-    public Map<String, Object> checkLogin() {
-        Map<String, Object> result = new java.util.HashMap<>();
-        result.put("isLogin", authService.isLogin());
-        result.put("loginId", StpUtil.isLogin() ? StpUtil.getLoginId() : null);
+        result.put("success", true);
+        result.put("user", user);
         return result;
     }
 
@@ -103,6 +84,7 @@ public class UserController {
      * 根据ID获取用户信息（需要登录）
      */
     @GetMapping("/{id}")
+    @SaCheckLogin
     public User getUserById(@PathVariable Long id) {
         return userService.getById(id);
     }
@@ -111,6 +93,7 @@ public class UserController {
      * 更新用户信息（需要登录）
      */
     @PutMapping("/{id}")
+    @SaCheckLogin
     public Map<String, Object> updateUser(@PathVariable Long id, @RequestBody User user) {
         user.setId(id);
         boolean success = userService.updateById(user);
@@ -124,6 +107,9 @@ public class UserController {
      * 删除用户（需要登录）
      */
     @DeleteMapping("/{id}")
+    @SaCheckLogin
+    @SaCheckRole("admin")
+    @SaCheckPermission("user:delete")
     public Map<String, Object> deleteUser(@PathVariable Long id) {
         boolean success = userService.removeById(id);
         Map<String, Object> result = new java.util.HashMap<>();

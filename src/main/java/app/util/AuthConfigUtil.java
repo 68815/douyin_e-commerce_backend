@@ -88,12 +88,22 @@ public class AuthConfigUtil {
     }
 
     /**
-     * 检查路径是否在白名单中
+     * 检查路径是否在白名单中（支持正则表达式模式）
      */
     public static boolean isWhiteList(String path) {
-        return DYNAMIC_WHITE_LIST.stream().anyMatch(pattern -> 
-            path.equals(pattern) || path.startsWith(pattern.replace("**", ""))
-        );
+        return DYNAMIC_WHITE_LIST.stream().anyMatch(pattern -> {
+            // 如果模式以^开头，则认为是正则表达式
+            if (pattern.startsWith("^")) {
+                try {
+                    return path.matches(pattern);
+                } catch (Exception e) {
+                    // 正则表达式格式错误，回退到普通匹配
+                    return path.equals(pattern) || path.startsWith(pattern.replace("**", ""));
+                }
+            }
+            // 普通模式匹配
+            return path.equals(pattern) || path.startsWith(pattern.replace("**", ""));
+        });
     }
 
     /**
