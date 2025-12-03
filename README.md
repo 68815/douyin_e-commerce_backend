@@ -33,9 +33,9 @@ douyin_e-commerce_backend/
 
 ```env
 # Nacos配置
-NACOS_ADDR=192.168.43.69:8848
-NACOS_USER=nacos
-NACOS_PASSWORD=nacos
+NACOS_ADDR=your_nacos_server_address:port
+NACOS_USER=your_nacos_username
+NACOS_PASSWORD=your_nacos_password
 ```
 
 ### 2. Nacos配置中心设置
