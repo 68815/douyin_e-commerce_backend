@@ -1,0 +1,102 @@
+[versions]
+# Spring 相关
+spring-boot-framework = "3.5.8"
+spring-cloud = "2025.1.0"
+spring-dependency-management = "1.1.7"
+spring-cloud-gateway-server-webflux = "4.3.2"
+spring-cloud-starter-loadbalancer = "4.3.0"
+spring-ai = "0.8.1"    #Spring AI 版本需匹配 Boot
+
+# MyBatis-Plus
+mybatis-plus = "3.5.12"
+mybatis-spring = "3.0.5"
+
+# 数据库 & 驱动
+mysql-connector = "9.3.0"
+
+# 模板引擎
+velocity = "2.4.1"
+
+# 工具类
+lombok = "1.18.38"
+dotenv = "3.2.0"
+jetbrains-annotations = "26.0.2"
+
+# AOP
+spring-aop = "3.5.8"
+
+# 安全/认证
+sa-token = "1.44.0"
+
+# 阿里云 Nacos
+nacos = "2025.0.0.0"
+
+# 测试
+junit-platform = "6.0.1"
+
+
+[libraries]
+# ===== Spring Boot =====
+spring-boot-starter = { group = "org.springframework.boot", name = "spring-boot-starter" }
+spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
+spring-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
+spring-boot-starter-data-elasticsearch = { group = "org.springframework.boot", name = "spring-boot-starter-data-elasticsearch" }
+spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+
+# ===== Spring Cloud =====
+spring-cloud-starter = { group = "org.springframework.cloud", name = "spring-cloud-starter", version.ref = "spring-cloud" }
+spring-cloud-gateway-server-webflux = { group = "org.springframework.cloud", name = "spring-cloud-gateway-server-webflux", version.ref = "spring-cloud-gateway-server-webflux" }
+spring-cloud-starter-loadbalancer = { group = "org.springframework.cloud", name = "spring-cloud-starter-loadbalancer", version.ref = "spring-cloud-starter-loadbalancer" }
+spring-cloud-dependencies = { group = "org.springframework.cloud", name = "spring-cloud-dependencies", version.ref = "spring-cloud" }
+spring-boot-starter-webflux = { group = "org.springframework.boot", name = "spring-boot-starter-webflux" }
+
+# ===== Spring AI =====
+spring-ai-starter-model-openai = { group = "org.springframework.ai", name = "spring-ai-starter-model-openai", version = "0.8.1" }  # 注意：暂无统一版本变量
+
+# ===== MyBatis-Plus =====
+mybatis-plus-spring-boot3-starter = { group = "com.baomidou", name = "mybatis-plus-spring-boot3-starter", version.ref = "mybatis-plus" }
+mybatis-plus-generator = { group = "com.baomidou", name = "mybatis-plus-generator", version.ref = "mybatis-plus" }
+mybatis-spring = { group = "org.mybatis", name = "mybatis-spring", version.ref = "mybatis-spring" }
+
+# ===== Database =====
+mysql-connector-j = { group = "com.mysql", name = "mysql-connector-j", version.ref = "mysql-connector" }
+
+# ===== Template Engine =====
+velocity-engine-core = { group = "org.apache.velocity", name = "velocity-engine-core", version.ref = "velocity" }
+
+# ===== Lombok =====
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+
+# ===== Utils =====
+dotenv-java = { group = "io.github.cdimascio", name = "dotenv-java", version.ref = "dotenv" }
+jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version.ref = "jetbrains-annotations" }
+
+# ===== AOP =====
+spring-boot-starter-aop = { group = "org.springframework.boot", name = "spring-boot-starter-aop", version.ref = "spring-aop" }
+
+# ===== Sa-Token =====
+sa-token-spring-boot3-starter = { group = "cn.dev33", name = "sa-token-spring-boot3-starter", version.ref = "sa-token" }
+sa-token-redis-template = { group = "cn.dev33", name = "sa-token-redis-template", version.ref = "sa-token" }
+sa-token-reactor-spring-boot3-starter = { group = "cn.dev33", name = "sa-token-reactor-spring-boot3-starter", version.ref = "sa-token" }
+sa-token-redis-jackson = { group = "cn.dev33", name = "sa-token-redis-jackson", version.ref = "sa-token" }
+commons-pool2 = { group = "org.apache.commons", name = "commons-pool2" }
+
+# ===== Nacos (Alibaba Cloud) =====
+spring-cloud-starter-alibaba-nacos-discovery = { group = "com.alibaba.cloud", name = "spring-cloud-starter-alibaba-nacos-discovery", version.ref = "nacos" }
+spring-cloud-starter-alibaba-nacos-config = { group = "com.alibaba.cloud", name = "spring-cloud-starter-alibaba-nacos-config", version.ref = "nacos" }
+
+# ===== Test =====
+junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junit-platform" }
+junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit-platform" }
+junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit-platform" }
+
+[bundles]
+web-bundle = ["spring-boot-starter-web", "spring-boot-starter-actuator"]
+mybatis-plus-bundle = ["mybatis-plus-spring-boot3-starter", "mybatis-plus-generator", "velocity-engine-core"]
+sa-token-bundle = ["sa-token-spring-boot3-starter", "sa-token-redis-template"]
+nacos-bundle = ["spring-cloud-starter-alibaba-nacos-discovery", "spring-cloud-starter-alibaba-nacos-config"]
+
+
+[plugins]
+spring-boot-framework = { id = "org.springframework.boot", version.ref = "spring-boot-framework" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "spring-dependency-management" }

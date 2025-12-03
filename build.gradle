@@ -1,70 +1,18 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.5.3'
-    id 'io.spring.dependency-management' version '1.1.7'
-}
-ext {
-    springCloudVersion = "2025.0.0"
-    springAiVersion = "1.0.1"
+    id 'version-catalog'
+    id 'java-library'
+    alias(libs.plugins.spring.dependency.management)
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
+group = "com.example"
+version = "1.0.0"
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+// 所有子项目继承这些配置
+subprojects {
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
+        }
     }
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-spring-boot3-starter
-    implementation("com.baomidou:mybatis-plus-spring-boot3-starter:3.5.12")
-    // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-generator
-    implementation("com.baomidou:mybatis-plus-generator:3.5.12")
-    // https://mvnrepository.com/artifact/org.mybatis/mybatis-spring
-    implementation("org.mybatis:mybatis-spring:3.0.5")
-    // https://mvnrepository.com/artifact/org.apache.velocity/velocity-engine-core
-    implementation("org.apache.velocity:velocity-engine-core:2.4.1")
-    // https://mvnrepository.com/artifact/org.projectlombok/lombok
-    implementation("org.projectlombok:lombok:1.18.38")
-    // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
-    implementation("com.mysql:mysql-connector-j:9.3.0")
-    // https://mvnrepository.com/artifact/com.github.ulisesbocchio/jasypt-spring极速-boot-starter
-    //implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5")
-    // https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java
-    implementation("io.github.cdimascio:dotenv-java:3.2.0")
-    // https://mvnrepository.com/artifact/org.jetbrains/annotations
-    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:2023.0.3.2")
-    implementation("com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config:2023.0.3.2")
-    implementation("org.jetbrains:annotations:26.0.2")
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.cloud:spring-cloud-starter'
-    // Spring Boot Actuator for health checks
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    // Elasticsearch for intelligent search
-    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
-    // Spring AI for large language model integration
-    // SaToken 认证框架
-    implementation("cn.dev33:sa-token-spring-boot3-starter:1.38.0")
-    implementation("cn.dev33:sa-token-redis:1.38.0")
-    implementation 'org.springframework.ai:spring-ai-starter-model-openai'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    annotationProcessor("org.projectlombok:lombok:1.18.38")
-}
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
-        mavenBom "org.springframework.ai:spring-ai-bom:$springAiVersion"
-    }
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }

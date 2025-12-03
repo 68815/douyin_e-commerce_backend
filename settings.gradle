@@ -1,1 +1,23 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url = 'https://repo.spring.io/snapshot' }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        google()
+        gradlePluginPortal()
+
+        maven { url = 'https://repo.spring.io/snapshot' }
+        maven { url = 'https://repo.spring.io/milestone' }
+        maven { url = 'https://repo.spring.io/release' }
+    }
+}
 rootProject.name = 'douyin_e-commerce_backend'
+
+include('authentication-and-authorization', 'merchandise-service', 'order-service', 'payment-service', 'cart-service', 'user-service')

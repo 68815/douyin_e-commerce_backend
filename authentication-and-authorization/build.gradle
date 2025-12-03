@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    alias libs.plugins.spring.boot.framework
+    alias libs.plugins.spring.dependency.management
+    id 'application'
+    id 'java-library'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'authentication-and-authorization'
+
+
+dependencies {
+    implementation libs.sa.token.redis.template
+    implementation libs.sa.token.reactor.spring.boot3.starter
+    implementation libs.sa.token.redis.jackson
+    implementation libs.commons.pool2
+    implementation libs.spring.cloud.gateway.server.webflux
+    implementation libs.spring.boot.starter.webflux
+    implementation libs.spring.cloud.starter.loadbalancer
+
+    implementation libs.velocity.engine.core
+    implementation libs.dotenv.java
+    implementation libs.spring.cloud.starter.alibaba.nacos.discovery
+    implementation libs.spring.cloud.starter.alibaba.nacos.config
+    implementation libs.jetbrains.annotations
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+    implementation libs.spring.boot.starter
+    implementation libs.spring.boot.starter.actuator
+    testImplementation libs.spring.boot.starter.test
+    testRuntimeOnly libs.junit.platform.launcher
+    testImplementation libs.junit.jupiter.api
+    testImplementation libs.junit.jupiter.engine
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
