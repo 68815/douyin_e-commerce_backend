@@ -3,6 +3,7 @@ package com.example.user_service.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import com.example.user_service.dto.LoginRequest;
 import com.example.user_service.dto.RegisterRequest;
+import com.example.user_service.dto.UpdateRequest;
 import com.example.user_service.entity.User;
 import com.example.user_service.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +59,7 @@ public class UserController {
     @PostMapping("/register/email")
     public ResponseEntity<User> registerByEmail(@RequestBody RegisterRequest registerRequest) {
         // 验证验证码
-        if (!userService.verifyCode(registerRequest.getEmail(), registerRequest.getVerificationCode())) {
+        if (userService.verifyCode(registerRequest.getEmail(), registerRequest.getVerificationCode())) {
             return ResponseEntity.badRequest().build();
         }
         
@@ -78,7 +79,7 @@ public class UserController {
     @PostMapping("/register/phone")
     public ResponseEntity<User> registerByPhone(@RequestBody RegisterRequest registerRequest) {
         // 验证验证码
-        if (!userService.verifyCode(registerRequest.getPhoneNumber(), registerRequest.getVerificationCode())) {
+        if (userService.verifyCode(registerRequest.getPhoneNumber(), registerRequest.getVerificationCode())) {
             return ResponseEntity.badRequest().build();
         }
         
@@ -124,7 +125,7 @@ public class UserController {
                 .path("/")
                 .httpOnly(true)
                 .maxAge(0)
-                .sameSite("None")
+                .sameSite("Lax")
                 .secure(false)
                 .build();
 
@@ -139,7 +140,7 @@ public class UserController {
      */
     @GetMapping("/current")
     public ResponseEntity<User> getCurrentUser() {
-        // 简化实现，实际应从会话或token中获取用户信息
+
         return ResponseEntity.ok().build();
     }
 
@@ -170,14 +171,12 @@ public class UserController {
 
     /**
      * 更新用户信息
-     * @param id 用户ID
-     * @param user 用户信息
+     * @param updateRequest 更新请求
      * @return 更新结果
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<Boolean> updateUser(@PathVariable Long id, @RequestBody User user) {
-        user.setUserId(id);
-        boolean success = userService.updateUser(user);
+    @PutMapping("/update")
+    public ResponseEntity<Boolean> updateUser(@RequestBody UpdateRequest updateRequest) {
+        boolean success = userService.updateUser(updateRequest);
         return ResponseEntity.ok(success);
     }
 
@@ -190,5 +189,15 @@ public class UserController {
     public ResponseEntity<Boolean> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok(true);
+    }
+
+    /**
+     * 注销当前用户
+     * @return 是否成功
+     */
+    @DeleteMapping("/write-off")
+    public ResponseEntity<Boolean> writeOffCurrentUser() {
+        boolean success = userService.writeOffCurrentUser();
+        return ResponseEntity.ok(success);
     }
 }

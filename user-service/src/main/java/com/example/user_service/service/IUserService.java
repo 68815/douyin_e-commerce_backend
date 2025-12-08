@@ -1,5 +1,6 @@
 package com.example.user_service.service;
 
+import com.example.user_service.dto.UpdateRequest;
 import com.example.user_service.entity.User;
 
 import java.security.AuthProvider;
@@ -74,7 +75,7 @@ public interface IUserService {
      * @param user 用户对象
      * @return 是否成功
      */
-    boolean updateUser(User user);
+    boolean updateUser(UpdateRequest updateRequest);
     
     /**
      * 根据ID获取用户
@@ -85,10 +86,10 @@ public interface IUserService {
     
     /**
      * 发送验证码
+     *
      * @param emailOrPhone 目标（邮箱或手机号）
-     * @return 是否发送成功
      */
-    boolean sendVerificationCode(String emailOrPhone);
+    void sendVerificationCode(String emailOrPhone);
     
     /**
      * 验证验证码
@@ -97,7 +98,12 @@ public interface IUserService {
      * @return 是否验证成功
      */
     boolean verifyCode(String emailOrPhone, String code);
-    
+
+    /**
+     * 注销当前用户
+     * @return 是否成功
+     */
+    boolean writeOffCurrentUser();
     /**
      * 第三方用户注册
      * @param authProvider 认证提供者

@@ -31,6 +31,7 @@ public class SaTokenConfigure {
                 .addExclude("/user/login")
                 .addExclude("/user/register")
                 .addExclude("/user/sendVerificationCode")
+                .addExclude("/favicon.ico")
                 .setBeforeAuth(obj -> {
                     try {
                         ServerWebExchange exchange = SaReactorSyncHolder.getExchange();

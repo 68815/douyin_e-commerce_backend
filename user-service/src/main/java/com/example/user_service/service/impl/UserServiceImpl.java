@@ -3,20 +3,17 @@ package com.example.user_service.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.user_service.dto.UpdateRequest;
 import com.example.user_service.entity.User;
 import com.example.user_service.entity.VerificationCode;
 import com.example.user_service.mapper.UserMapper;
 import com.example.user_service.mapper.VerificationCodeMapper;
 import com.example.user_service.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.security.AuthProvider;
 import java.time.LocalDateTime;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -109,7 +106,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public boolean updateUser(User user) {
+    public boolean updateUser(UpdateRequest updateRequest) {
+        Long userId = StpUtil.getLoginIdAsLong();
+        User user = userMapper.selectById(userId);
+        if (updateRequest.getUserName() != null) {
+            user.setUserName(updateRequest.getUserName());
+        }
+        if (updateRequest.getUserEmail() != null) {
+            user.setUserEmail(updateRequest.getUserEmail());
+        }
+        if (updateRequest.getUserPhoneNumber() != null) {
+            user.setUserPhoneNumber(updateRequest.getUserPhoneNumber());
+        }
+        if (updateRequest.getUserPassword() != null) {
+            user.setUserPassword(updateRequest.getUserPassword());
+        }
         return userMapper.updateById(user) > 0;
     }
 
@@ -119,7 +130,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
-    public boolean sendVerificationCode(String emailOrPhone) {
+    public void sendVerificationCode(String emailOrPhone) {
         String code = String.format("%06d", new Random().nextInt(999999));
 
         if (sendCodeViaSMSOrEmail(emailOrPhone, code)) {
@@ -130,9 +141,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             verificationCode.setCreatedAt(LocalDateTime.now());
             
             verificationCodeMapper.insert(verificationCode);
-            return true;
         } else {
-            return false;
         }
     }
     
@@ -165,10 +174,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                     .eq("is_used", 0);
         VerificationCode verificationCode = verificationCodeMapper.selectOne(queryWrapper);
         if (null == verificationCode) {
-            return false;
+            return true;
         }
         verificationCode.setIsUsed(1);
         verificationCodeMapper.updateById(verificationCode);
+        return false;
+    }
+
+    @Override
+    public boolean writeOffCurrentUser() {
+        StpUtil.logout();
+        userMapper.deleteById(StpUtil.getLoginIdAsLong());
         return true;
     }
 
