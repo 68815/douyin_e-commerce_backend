@@ -72,7 +72,7 @@ public interface IUserService {
     
     /**
      * 更新用户信息
-     * @param user 用户对象
+     * @param updateRequest 更新请求
      * @return 是否成功
      */
     boolean updateUser(UpdateRequest updateRequest);

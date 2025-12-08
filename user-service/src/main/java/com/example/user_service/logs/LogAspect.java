@@ -1,6 +1,5 @@
 package com.example.user_service.logs;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -14,9 +13,6 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LogAspect {
-    
-    private final ObjectMapper objectMapper = new ObjectMapper();
-    
     /**
      * 定义切点，拦截所有controller包下的所有方法
      */
@@ -84,7 +80,7 @@ public class LogAspect {
             }
         }
         String targetClass = point.getTarget().getClass().getSimpleName();
-        log.info("[METHOD_ENTRY] {}.{} 开始执行{}", targetClass, methodName, argsInfo.toString());
+        log.info("[METHOD_ENTRY] {}.{} 开始执行{}", targetClass, methodName, argsInfo);
     }
     
     /**
