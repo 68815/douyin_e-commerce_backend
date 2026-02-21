@@ -28,6 +28,10 @@ public class User implements Serializable {
     @TableField("user_name")
     private String userName;
 
+    /**
+     * 用户密码（已加密存储）
+     * 使用BCrypt算法进行加密
+     */
     @TableField("user_password")
     private String userPassword;
 

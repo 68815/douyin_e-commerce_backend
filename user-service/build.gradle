@@ -10,12 +10,20 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 description = 'user-service'
 
+// 应用Spring Security BOM
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.security:spring-security-bom:7.0.0'
+    }
+}
 
 dependencies {
     implementation libs.sa.token.spring.boot3.starter
     implementation libs.sa.token.redis.template
     implementation libs.sa.token.redis.jackson
     implementation libs.commons.pool2
+    implementation libs.commons.codec
+    implementation libs.redisson
     
     implementation libs.mybatis.plus.generator
     implementation libs.mybatis.spring

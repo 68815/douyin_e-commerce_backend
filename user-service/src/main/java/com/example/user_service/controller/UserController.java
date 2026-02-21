@@ -26,10 +26,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
-    @Autowired
+    
     private IUserService userService;
-
+    @Autowired
+    public void setUserService(IUserService userService) {
+        this.userService = userService;
+    }
     /**
      * 用户登录
      * @param loginRequest 登录请求
@@ -55,11 +57,11 @@ public class UserController {
      * 用户注册（邮箱）
      * @param registerRequest 注册请求
      * @return 注册结果
-     */
+     */ /*
     @PostMapping("/register/email")
     public ResponseEntity<User> registerByEmail(@RequestBody RegisterRequest registerRequest) {
         // 验证验证码
-        if (userService.verifyCode(registerRequest.getEmail(), registerRequest.getVerificationCode())) {
+        /*if (userService.verifyCode(registerRequest.getEmail(), registerRequest.getVerificationCode())) {
             return ResponseEntity.badRequest().build();
         }
         
@@ -69,7 +71,7 @@ public class UserController {
             registerRequest.getUsername()
         );
         return ResponseEntity.ok(user);
-    }
+    }       */
 
     /**
      * 用户注册（手机）
@@ -78,15 +80,15 @@ public class UserController {
      */
     @PostMapping("/register/phone")
     public ResponseEntity<User> registerByPhone(@RequestBody RegisterRequest registerRequest) {
-        // 验证验证码
-        if (userService.verifyCode(registerRequest.getPhoneNumber(), registerRequest.getVerificationCode())) {
+        
+        /* 验证验证码
+        if (userService.verifyCode(registerRequest.getPhone(), registerRequest.getCode())) {
             return ResponseEntity.badRequest().build();
-        }
+        }  */
         
         User user = userService.createUserByPhone(
-            registerRequest.getPhoneNumber(), 
-            registerRequest.getPassword(), 
-            registerRequest.getUsername()
+            registerRequest.getPhone(), 
+            registerRequest.getPassword()
         );
         return ResponseEntity.ok(user);
     }

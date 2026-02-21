@@ -27,6 +27,8 @@ spring-aop = "3.5.8"
 
 # 安全/认证
 sa-token = "1.44.0"
+spring-security-bom = "7.0.0"
+spring-security = "6.3.10"
 
 # 阿里云 Nacos
 nacos = "2025.0.0.0"
@@ -73,6 +75,7 @@ jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version
 
 # ===== AOP =====
 spring-boot-starter-aop = { group = "org.springframework.boot", name = "spring-boot-starter-aop", version.ref = "spring-aop" }
+spring-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
 
 # ===== Sa-Token =====
 sa-token-spring-boot3-starter = { group = "cn.dev33", name = "sa-token-spring-boot3-starter", version.ref = "sa-token" }
@@ -80,6 +83,8 @@ sa-token-redis-template = { group = "cn.dev33", name = "sa-token-redis-template"
 sa-token-reactor-spring-boot3-starter = { group = "cn.dev33", name = "sa-token-reactor-spring-boot3-starter", version.ref = "sa-token" }
 sa-token-redis-jackson = { group = "cn.dev33", name = "sa-token-redis-jackson", version.ref = "sa-token" }
 commons-pool2 = { group = "org.apache.commons", name = "commons-pool2" }
+commons-codec = { group = "commons-codec", name = "commons-codec", version = "1.17.2" }
+redisson = { group = "org.redisson", name = "redisson-spring-boot-starter", version = "3.39.0" }
 
 # ===== Nacos (Alibaba Cloud) =====
 spring-cloud-starter-alibaba-nacos-discovery = { group = "com.alibaba.cloud", name = "spring-cloud-starter-alibaba-nacos-discovery", version.ref = "nacos" }
