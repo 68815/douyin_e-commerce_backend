@@ -41,7 +41,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public User createUserByEmail(String email, String password, String username) {
         // 使用布隆过滤器进行快速预检查
-        if (userBloomFilterService.mightContainUser(email) || 
+        if (userBloomFilterService.mightContainUser(email) ||
             userBloomFilterService.mightContainUser(username)) {
             log.warn(String.format("[USER_SERVICE] 布隆过滤器检测到可能存在的用户: email=%s, username=%s", email, username));
             return null;
@@ -50,7 +50,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (!PasswordUtil.isPasswordStrong(password)) {
             throw new IllegalArgumentException("密码强度不符合要求");
         }
-        
+
         User user = new User();
         user.setUserEmail(email);
         // 对密码进行加密存储
@@ -61,12 +61,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setTotalLoginDays(1);
         user.setConsecutiveLoginDays(1);
         user.setTrustScore(100);
-        
+
         userMapper.insert(user);
-        
+
         // 将用户标识添加到布隆过滤器
         userBloomFilterService.addBatchUserIdentifiers(email, username);
-        
+
         return user;
     }
 
@@ -78,7 +78,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public User createUserByPhone(String phone, String password, String username) {
         // 使用布隆过滤器进行快速预检查
-        if (userBloomFilterService.mightContainUser(phone) || 
+        if (userBloomFilterService.mightContainUser(phone) ||
             userBloomFilterService.mightContainUser(username)) {
             log.warn(String.format("[USER_SERVICE] 布隆过滤器检测到可能存在的用户: phone=%s, username=%s", phone, username));
             return null;
@@ -88,7 +88,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (!PasswordUtil.isPasswordStrong(password)) {
             throw new IllegalArgumentException("密码强度不符合要求");
         }
-        
+
         User user = new User();
         user.setUserPhoneNumber(phone);
         // 对密码进行加密存储
@@ -100,10 +100,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         user.setConsecutiveLoginDays(1);
         user.setTrustScore(100);
         userMapper.insert(user);
-        
+
         // 将用户标识添加到布隆过滤器
         userBloomFilterService.addBatchUserIdentifiers(phone, username);
-        
+
         return user;
     }
 
@@ -119,7 +119,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             log.warn(String.format("[USER_SERVICE] 黑名单用户尝试登录: %s", username));
             return null; // 或者抛出特定异常
         }
-        
+
         // 先查询用户（不包含密码条件）
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.and(wrapper -> wrapper.eq("user_email", username)
@@ -127,9 +127,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
                    .eq("user_phone_number", username)
                    .or()
                    .eq("user_name", username));
-        
+
         User user = userMapper.selectOne(queryWrapper);
-        
+
         // 如果用户存在且密码验证通过
         if (user != null && PasswordUtil.matches(password, user.getUserPassword())) {
             if (user.getLatestLoginDateTime().toLocalDate().equals(LocalDateTime.now().toLocalDate().minusDays(1))) {

@@ -142,8 +142,8 @@ public class UserController {
      */
     @GetMapping("/current")
     public ResponseEntity<User> getCurrentUser() {
-
-        return ResponseEntity.ok().build();
+        User user = userService.getUserById(StpUtil.getLoginIdAsLong());
+        return ResponseEntity.ok(user);
     }
 
     /**

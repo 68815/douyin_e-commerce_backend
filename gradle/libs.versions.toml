@@ -5,11 +5,12 @@ spring-cloud = "2025.1.0"
 spring-dependency-management = "1.1.7"
 spring-cloud-gateway-server-webflux = "4.3.2"
 spring-cloud-starter-loadbalancer = "4.3.0"
+spring-boot-stater-data-elasticsearch = "4.0.3"
 spring-ai = "0.8.1"    #Spring AI 版本需匹配 Boot
 
 # MyBatis-Plus
 mybatis-plus = "3.5.12"
-mybatis-spring = "3.0.5"
+mybatis-plus-jsqlparser = "3.5.12"
 
 # 数据库 & 驱动
 mysql-connector = "9.3.0"
@@ -27,8 +28,6 @@ spring-aop = "3.5.8"
 
 # 安全/认证
 sa-token = "1.44.0"
-spring-security-bom = "7.0.0"
-spring-security = "6.3.10"
 
 # 阿里云 Nacos
 nacos = "2025.0.0.0"
@@ -58,7 +57,7 @@ spring-ai-starter-model-openai = { group = "org.springframework.ai", name = "spr
 # ===== MyBatis-Plus =====
 mybatis-plus-spring-boot3-starter = { group = "com.baomidou", name = "mybatis-plus-spring-boot3-starter", version.ref = "mybatis-plus" }
 mybatis-plus-generator = { group = "com.baomidou", name = "mybatis-plus-generator", version.ref = "mybatis-plus" }
-mybatis-spring = { group = "org.mybatis", name = "mybatis-spring", version.ref = "mybatis-spring" }
+mybatis-plus-jsqlparser = { group = "com.baomidou", name = "mybatis-plus-jsqlparser", version.ref = "mybatis-plus-jsqlparser" }
 
 # ===== Database =====
 mysql-connector-j = { group = "com.mysql", name = "mysql-connector-j", version.ref = "mysql-connector" }
@@ -79,12 +78,12 @@ spring-boot-starter-security = { group = "org.springframework.boot", name = "spr
 
 # ===== Sa-Token =====
 sa-token-spring-boot3-starter = { group = "cn.dev33", name = "sa-token-spring-boot3-starter", version.ref = "sa-token" }
-sa-token-redis-template = { group = "cn.dev33", name = "sa-token-redis-template", version.ref = "sa-token" }
+sa-token-redisson = { group = "cn.dev33", name = "sa-token-redisson", version.ref = "sa-token" }
 sa-token-reactor-spring-boot3-starter = { group = "cn.dev33", name = "sa-token-reactor-spring-boot3-starter", version.ref = "sa-token" }
 sa-token-redis-jackson = { group = "cn.dev33", name = "sa-token-redis-jackson", version.ref = "sa-token" }
 commons-pool2 = { group = "org.apache.commons", name = "commons-pool2" }
 commons-codec = { group = "commons-codec", name = "commons-codec", version = "1.17.2" }
-redisson = { group = "org.redisson", name = "redisson-spring-boot-starter", version = "3.39.0" }
+redisson = { group = "org.redisson", name = "redisson-spring-boot-starter", version = "4.2.0" }
 
 # ===== Nacos (Alibaba Cloud) =====
 spring-cloud-starter-alibaba-nacos-discovery = { group = "com.alibaba.cloud", name = "spring-cloud-starter-alibaba-nacos-discovery", version.ref = "nacos" }
@@ -98,7 +97,7 @@ junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engi
 [bundles]
 web-bundle = ["spring-boot-starter-web", "spring-boot-starter-actuator"]
 mybatis-plus-bundle = ["mybatis-plus-spring-boot3-starter", "mybatis-plus-generator", "velocity-engine-core"]
-sa-token-bundle = ["sa-token-spring-boot3-starter", "sa-token-redis-template"]
+sa-token-bundle = ["sa-token-spring-boot3-starter", "sa-token-redisson"]
 nacos-bundle = ["spring-cloud-starter-alibaba-nacos-discovery", "spring-cloud-starter-alibaba-nacos-config"]
 
 

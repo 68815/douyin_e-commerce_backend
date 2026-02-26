@@ -13,8 +13,8 @@ description = 'merchandise-service'
 
 dependencies {
     implementation libs.mybatis.plus.generator
-    implementation libs.mybatis.spring
     implementation libs.mybatis.plus.spring.boot3.starter
+    implementation libs.mybatis.plus.jsqlparser
     implementation libs.velocity.engine.core
     implementation libs.mysql.connector.j
     implementation libs.dotenv.java
@@ -23,6 +23,7 @@ dependencies {
     implementation libs.jetbrains.annotations
     compileOnly libs.lombok
     annotationProcessor libs.lombok
+    implementation libs.spring.boot.starter.data.elasticsearch
     implementation libs.spring.boot.starter
     implementation libs.spring.boot.starter.actuator
     implementation libs.spring.boot.starter.web

@@ -15,4 +15,9 @@ subprojects {
             languageVersion.set(JavaLanguageVersion.of(24))
         }
     }
+    dependencyManagement {
+        imports {
+            mavenBom "com.baomidou:mybatis-plus-bom:3.5.12"
+        }
+    }
 }

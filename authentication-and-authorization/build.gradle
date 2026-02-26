@@ -12,7 +12,7 @@ description = 'authentication-and-authorization'
 
 
 dependencies {
-    implementation libs.sa.token.redis.template
+    implementation libs.sa.token.redisson
     implementation libs.sa.token.reactor.spring.boot3.starter
     implementation libs.sa.token.redis.jackson
     implementation libs.commons.pool2

@@ -1,7 +1,6 @@
 package com.example.merchandise_service.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serial;
@@ -11,46 +10,96 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ * 商品实体类
  * </p>
  *
- * @author 0109
- * @since 2025-07-19
+ * @author ecommerce
+ * @since 2026-02-21
  */
 @Data
+@TableName("product")
 public class Product implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    /**
+     * 商品ID
+     */
+    @TableId(value = "product_id", type = IdType.AUTO)
+    private Long productId;
 
-    private String name;
+    /**
+     * 商品名称
+     */
+    @TableField("product_name")
+    private String productName;
 
-    private String description;
+    /**
+     * 商品描述
+     */
+    @TableField("product_description")
+    private String productDescription;
 
+    /**
+     * 商品价格
+     */
+    @TableField("price")
     private BigDecimal price;
 
-    private Integer stock;
+    /**
+     * 商品库存
+     */
+    @TableField("stock_quantity")
+    private Integer stockQuantity;
 
+    /**
+     * 商品分类ID
+     */
+    @TableField("category_id")
     private Long categoryId;
 
-    private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
 
-    @Override
-    public String toString() {
-        return "Product{" +
-            "id = " + id +
-            ", name = " + name +
-            ", description = " + description +
-            ", price = " + price +
-            ", stock = " + stock +
-            ", categoryId = " + categoryId +
-            ", createdAt = " + createdAt +
-            ", updatedAt = " + updatedAt +
-            "}";
-    }
+    /**
+     * 商品图片URL
+     */
+    @TableField("image_url")
+    private String imageUrl;
+
+    /**
+     * 商品状态 (0:下架, 1:上架)
+     */
+    @TableField("status")
+    private Integer status;
+
+    /**
+     * 销售数量
+     */
+    @TableField("sales_count")
+    private Integer salesCount;
+
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField("update_time")
+    private LocalDateTime updateTime;
+
+    /**
+     * 是否热销 (0:否, 1:是)
+     */
+    @TableField("is_hot")
+    private Integer isHot;
+
+    /**
+     * 是否新品 (0:否, 1:是)
+     */
+    @TableField("is_new")
+    private Integer isNew;
 }

@@ -13,7 +13,6 @@ description = 'order-service'
 
 dependencies {
     implementation libs.mybatis.plus.generator
-    implementation libs.mybatis.spring
     implementation libs.mybatis.plus.spring.boot3.starter
     implementation libs.velocity.engine.core
     implementation libs.mysql.connector.j
