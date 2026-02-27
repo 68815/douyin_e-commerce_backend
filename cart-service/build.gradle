@@ -23,6 +23,7 @@ dependencies {
     implementation libs.jetbrains.annotations
     compileOnly libs.lombok
     annotationProcessor libs.lombok
+    implementation libs.redisson
     implementation libs.spring.boot.starter
     implementation libs.spring.boot.starter.actuator
     implementation libs.spring.boot.starter.web

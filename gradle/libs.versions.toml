@@ -4,13 +4,17 @@ spring-boot-framework = "3.5.8"
 spring-cloud = "2025.1.0"
 spring-dependency-management = "1.1.7"
 spring-cloud-gateway-server-webflux = "4.3.2"
-spring-cloud-starter-loadbalancer = "4.3.0"
+spring-cloud-starter-loadbalancer = "5.0.1"
 spring-boot-stater-data-elasticsearch = "4.0.3"
+spring-cloud-starter-openfeign = "5.0.1"
 spring-ai = "0.8.1"    #Spring AI 版本需匹配 Boot
 
 # MyBatis-Plus
 mybatis-plus = "3.5.12"
 mybatis-plus-jsqlparser = "3.5.12"
+
+# MQ
+spring-rabbit = "4.0.3"
 
 # 数据库 & 驱动
 mysql-connector = "9.3.0"
@@ -43,6 +47,7 @@ spring-boot-starter-web = { group = "org.springframework.boot", name = "spring-b
 spring-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
 spring-boot-starter-data-elasticsearch = { group = "org.springframework.boot", name = "spring-boot-starter-data-elasticsearch" }
 spring-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+spring-cloud-starter-openfeign = { group = "org.springframework.cloud", name = "spring-cloud-starter-openfeign", version.ref = "spring-cloud-starter-openfeign" }
 
 # ===== Spring Cloud =====
 spring-cloud-starter = { group = "org.springframework.cloud", name = "spring-cloud-starter", version.ref = "spring-cloud" }
@@ -84,6 +89,9 @@ sa-token-redis-jackson = { group = "cn.dev33", name = "sa-token-redis-jackson", 
 commons-pool2 = { group = "org.apache.commons", name = "commons-pool2" }
 commons-codec = { group = "commons-codec", name = "commons-codec", version = "1.17.2" }
 redisson = { group = "org.redisson", name = "redisson-spring-boot-starter", version = "4.2.0" }
+
+# ===== RabbitMQ =====
+spring-boot-starter-amqp = { group = "org.springframework.boot", name = "spring-boot-starter-amqp", version.ref = "spring-rabbit" }
 
 # ===== Nacos (Alibaba Cloud) =====
 spring-cloud-starter-alibaba-nacos-discovery = { group = "com.alibaba.cloud", name = "spring-cloud-starter-alibaba-nacos-discovery", version.ref = "nacos" }

@@ -1,6 +1,6 @@
 package com.example.cart_service.service;
 
-import com.example.cart_service.entity.Cart;
+import com.example.cart_service.entity.CartItem;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -8,27 +8,22 @@ import java.util.List;
 /**
  * 购物车服务接口
  */
-public interface ICartService extends IService<Cart> {
+public interface ICartService extends IService<CartItem> {
 
     /**
      * 获取用户购物车
      */
-    List<Cart> getUserCart(Long userId);
-
-    /**
-     * 添加商品到购物车
-     */
-    boolean addToCart(Long userId, Long productId, Integer quantity);
+    List<CartItem> getUserCart(Long userId);
 
     /**
      * 更新购物车商品数量
      */
-    boolean updateCartItemQuantity(Long cartId, Integer quantity);
+    boolean updateCartItemQuantity(Long userId, Integer quantity, Long productId);
 
     /**
      * 从购物车移除商品
      */
-    boolean removeFromCart(Long cartId);
+    boolean removeFromCart(Long userId, Long productId);
 
     /**
      * 清空用户购物车
@@ -39,4 +34,12 @@ public interface ICartService extends IService<Cart> {
      * 获取购物车商品总数
      */
     int getCartItemCount(Long userId);
+
+    /**
+     * 添加购物车项
+     *
+     * @param quantity 数量
+     * @return 购物车项ID
+     */
+    Long addCartItem(Long userId, Long productId, Integer quantity);
 }

@@ -1,7 +1,7 @@
 package com.example.cart_service.mapper;
 
-import com.example.cart_service.entity.Cart;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.example.cart_service.entity.CartItem;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -13,6 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2025-07-19
  */
 @Mapper
-public interface CartMapper extends BaseMapper<Cart> {
+public interface CartItemMapper extends BaseMapper<CartItem> {
 
 }

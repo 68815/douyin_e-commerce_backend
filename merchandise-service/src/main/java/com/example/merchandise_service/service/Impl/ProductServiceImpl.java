@@ -10,7 +10,6 @@ import com.example.merchandise_service.dto.ProductSearchRequest;
 import com.example.merchandise_service.entity.Product;
 import com.example.merchandise_service.mapper.ProductMapper;
 import com.example.merchandise_service.service.IProductService;
-import com.example.merchandise_service.service.ProductSyncService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,13 +29,10 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> implements IProductService {
 
     private final ProductMapper productMapper;
-
-    private final ProductSyncService productSyncService;
     
     @Autowired
-    public ProductServiceImpl(ProductMapper productMapper, ProductSyncService productSyncService) {
+    public ProductServiceImpl(ProductMapper productMapper) {
         this.productMapper = productMapper;
-        this.productSyncService = productSyncService;
     }
 
     @Override

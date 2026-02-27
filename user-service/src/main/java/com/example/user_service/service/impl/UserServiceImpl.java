@@ -11,6 +11,7 @@ import com.example.user_service.mapper.VerificationCodeMapper;
 import com.example.user_service.service.IUserService;
 import com.example.user_service.service.UserBloomFilterService;
 import com.example.user_service.utils.PasswordUtil;
+import com.example.user_service.client.CartServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +38,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     
     @Autowired
     private UserBloomFilterService userBloomFilterService;
+    
+    @Autowired
+    private CartServiceClient cartServiceClient;
 
     @Override
     public User createUserByEmail(String email, String password, String username) {
@@ -103,7 +107,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         // 将用户标识添加到布隆过滤器
         userBloomFilterService.addBatchUserIdentifiers(phone, username);
-
         return user;
     }
 
