@@ -50,23 +50,21 @@ public class CartController {
         List<CartItem> cartItems = cartService.getUserCart(userId);
         
         CartResponse response = new CartResponse();
+        response.setUserId(userId);
+        response.setItems(cartItems);
         response.setTotalItems(cartItems.size());
         
-        // 计算选中商品数量
+        // 计算选中商品数量和总价
         int selectedCount = 0;
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        
         for (CartItem item : cartItems) {
             if (item.getSelected() == 1) {
                 selectedCount += item.getQuantity();
+                // 这里需要从商品服务获取实际价格
+                totalPrice = totalPrice.add(item.getPrice().multiply(new BigDecimal(item.getQuantity())));
             }
-            CartResponse.CartItemDto itemDto = new CartResponse.CartItemDto();
-            itemDto.setProductId(item.getProductId());
-            itemDto.setQuantity(item.getQuantity());
-            itemDto.setSelected(item.getSelected());
-            response.getItems().add(itemDto);
         }
-        
-        // 价格需要从商品服务实时获取，这里暂时设为0
-        BigDecimal totalPrice = BigDecimal.ZERO;
         
         response.setSelectedCount(selectedCount);
         response.setTotalPrice(totalPrice);

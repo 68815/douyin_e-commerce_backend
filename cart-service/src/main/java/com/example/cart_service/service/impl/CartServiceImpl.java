@@ -35,19 +35,23 @@ public class CartServiceImpl extends ServiceImpl<CartItemMapper, CartItem> imple
     @Override
     public List<CartItem> getUserCart(Long userId) {
         try {
-            RMap<Long, List<CartItem>> cartCache = redissonClient.getMap("cart:" + userId);
-            List<CartItem> cachedCart = cartCache.get(userId);
+            // 先从Redisson缓存获取
+            RMap<String, List<CartItem>> cartCache = redissonClient.getMap("cart_cache");
+            List<CartItem> cachedCart = cartCache.get("user_" + userId);
+            
             if (cachedCart != null && !cachedCart.isEmpty()) {
                 return cachedCart;
             }
-
+            
+            // 缓存未命中，从数据库查询
             QueryWrapper<CartItem> wrapper = new QueryWrapper<>();
             wrapper.eq("user_id", userId)
                    .orderByDesc("created_time");
             List<CartItem> result = cartItemMapper.selectList(wrapper);
-
+            
+            // 写入缓存
             if (!result.isEmpty()) {
-                cartCache.fastPut(userId, result);
+                cartCache.put("user_" + userId, result);
             }
             return result;
         } catch (Exception e) {
@@ -65,7 +69,6 @@ public class CartServiceImpl extends ServiceImpl<CartItemMapper, CartItem> imple
                    .eq("product_id", productId)
                    .set("quantity", quantity);
             int result = cartItemMapper.update(null, wrapper);
-
             if (result > 0) {
                 clearUserCartCache(userId);
             }
@@ -84,8 +87,8 @@ public class CartServiceImpl extends ServiceImpl<CartItemMapper, CartItem> imple
             QueryWrapper<CartItem> wrapper = new QueryWrapper<>();
             wrapper.eq("user_id", userId)
                    .eq("product_id", productId);
+            
             int result = cartItemMapper.delete(wrapper);
-
             if (result > 0) {
                 clearUserCartCache(userId);
             }
@@ -103,7 +106,6 @@ public class CartServiceImpl extends ServiceImpl<CartItemMapper, CartItem> imple
             QueryWrapper<CartItem> wrapper = new QueryWrapper<>();
             wrapper.eq("user_id", userId);
             int result = cartItemMapper.delete(wrapper);
-
             if (result > 0) {
                 clearUserCartCache(userId);
             }
@@ -169,8 +171,8 @@ public class CartServiceImpl extends ServiceImpl<CartItemMapper, CartItem> imple
      */
     private void clearUserCartCache(Long userId) {
         try {
-            RMap<Long, List<CartItem>> cartCache = redissonClient.getMap("cart:" + userId);
-            cartCache.delete();
+            RMap<String, List<CartItem>> cartCache = redissonClient.getMap("cart_cache");
+            cartCache.remove("user_" + userId);
         } catch (Exception e) {
             log.warn("清除用户购物车缓存失败，用户ID: {}", userId, e);
         }
