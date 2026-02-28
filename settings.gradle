@@ -21,4 +21,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = 'douyin_e-commerce_backend'
 
-include('authentication-and-authorization', 'merchandise-service', 'order-service', 'payment-service', 'cart-service', 'user-service')
+include('authentication-and-authorization', 'merchandise-service', 'order-service',
+        'payment-service', 'cart-service', 'user-service', 'common-module')

@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -134,6 +135,18 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     public PageResponse<ProductResponse> getProductsByFilter(ProductSearchRequest request) {
         // 筛选功能与搜索功能共用同一个方法，可以根据需要分离
         return getProductsBySearch(request);
+    }
+
+    @Override
+    public List<ProductResponse> getProductsByIds(List<Long> productIds) {
+        if (productIds == null || productIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        
+        return productMapper.selectList(lambdaQuery().in(Product::getProductId, productIds))
+                .stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
     }
 
     @Override
