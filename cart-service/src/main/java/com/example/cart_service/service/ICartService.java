@@ -1,7 +1,8 @@
 package com.example.cart_service.service;
 
-import com.example.cart_service.entity.CartItem;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.cart_service.dto.CartItemDetailDto;
+import com.example.cart_service.entity.CartItem;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface ICartService extends IService<CartItem> {
     /**
      * 获取用户购物车
      */
-    List<CartItem> getUserCart(Long userId);
+    List<CartItemDetailDto> getUserCart(Long userId);
 
     /**
      * 更新购物车商品数量

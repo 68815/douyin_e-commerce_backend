@@ -7,6 +7,7 @@ import com.example.merchandise_service.service.IProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.GenericHttpMessageConverter;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,9 +27,12 @@ public class ProductController {
 
 
     private final IProductService productService;
+    private final GenericHttpMessageConverter genericHttpMessageConverter;
+
     @Autowired
-    public ProductController(IProductService productService) {
+    public ProductController(IProductService productService, GenericHttpMessageConverter genericHttpMessageConverter) {
         this.productService = productService;
+        this.genericHttpMessageConverter = genericHttpMessageConverter;
     }
 
     /**
@@ -92,6 +96,15 @@ public class ProductController {
             @RequestBody ProductSearchRequest request) {
 
         PageResponse<ProductResponse> result = productService.getProductsByFilter(request);
+        return ResponseEntity.ok(result);
+    }
+
+    /**
+     * 批量获取商品信息（根据id）
+     */
+    @GetMapping("/getBatch")
+    public ResponseEntity<List<ProductResponse>> getProductsByIds(@RequestParam List<Long> ids) {
+        List<ProductResponse> result = productService.getProductsByIds(ids);
         return ResponseEntity.ok(result);
     }
 

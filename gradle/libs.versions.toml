@@ -4,9 +4,9 @@ spring-boot-framework = "3.5.8"
 spring-cloud = "2025.1.0"
 spring-dependency-management = "1.1.7"
 spring-cloud-gateway-server-webflux = "4.3.2"
-spring-cloud-starter-loadbalancer = "5.0.1"
+spring-cloud-starter-loadbalancer = "4.0.3"
 spring-boot-stater-data-elasticsearch = "4.0.3"
-spring-cloud-starter-openfeign = "5.0.1"
+spring-cloud-starter-openfeign = "4.3.1"
 spring-ai = "0.8.1"    #Spring AI 版本需匹配 Boot
 
 # MyBatis-Plus

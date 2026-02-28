@@ -1,11 +1,8 @@
 package com.example.merchandise_service.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.merchandise_service.dto.PageResponse;
 import com.example.merchandise_service.dto.ProductResponse;
 import com.example.merchandise_service.dto.ProductSearchRequest;
-import com.example.merchandise_service.entity.Product;
 
 import java.util.List;
 
@@ -47,7 +44,12 @@ public interface IProductService {
      * @return 分页商品列表
      */
     PageResponse<ProductResponse> getProductsByFilter(ProductSearchRequest request);
-    
+
+    /**
+     * 批量获取商品信息（根据id）
+     */
+    List<ProductResponse> getProductsByIds(List<Long> productIds);
+
     /**
      * 根据ID获取商品详情
      * @param productId 商品ID

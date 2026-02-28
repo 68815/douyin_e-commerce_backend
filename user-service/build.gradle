@@ -32,8 +32,6 @@ dependencies {
     implementation libs.dotenv.java
     implementation libs.spring.cloud.starter.alibaba.nacos.discovery
     implementation libs.spring.cloud.starter.alibaba.nacos.config
-    implementation libs.spring.cloud.starter.openfeign
-    implementation libs.spring.boot.starter.amqp
     implementation libs.jetbrains.annotations
     compileOnly libs.lombok
     annotationProcessor libs.lombok

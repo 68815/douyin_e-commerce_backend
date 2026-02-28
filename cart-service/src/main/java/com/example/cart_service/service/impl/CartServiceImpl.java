@@ -3,6 +3,7 @@ package com.example.cart_service.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.cart_service.dto.CartItemDetailDto;
 import com.example.cart_service.entity.CartItem;
 import com.example.cart_service.mapper.CartItemMapper;
 import com.example.cart_service.service.ICartService;
@@ -13,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,11 +36,11 @@ public class CartServiceImpl extends ServiceImpl<CartItemMapper, CartItem> imple
     }
 
     @Override
-    public List<CartItem> getUserCart(Long userId) {
+    public List<CartItemDetailDto> getUserCart(Long userId) {
         try {
             // 先从Redisson缓存获取
-            RMap<String, List<CartItem>> cartCache = redissonClient.getMap("cart_cache");
-            List<CartItem> cachedCart = cartCache.get("user_" + userId);
+            RMap<String, List<CartItemDetailDto>> cartCache = redissonClient.getMap("cart_cache");
+            List<CartItemDetailDto> cachedCart = cartCache.get("user_" + userId);
             
             if (cachedCart != null && !cachedCart.isEmpty()) {
                 return cachedCart;
@@ -48,12 +51,24 @@ public class CartServiceImpl extends ServiceImpl<CartItemMapper, CartItem> imple
             wrapper.eq("user_id", userId)
                    .orderByDesc("created_time");
             List<CartItem> result = cartItemMapper.selectList(wrapper);
-            
+            List<CartItemDetailDto> cartDtoList = new ArrayList<CartItemDetailDto>();
             // 写入缓存
             if (!result.isEmpty()) {
-                cartCache.put("user_" + userId, result);
+                //调用merchandise服务，批量获取每个商品的name、imageurl、price
+                List<Long> productIds = result.stream().map(CartItem::getProductId).toList();
+                
+                for (CartItem cartItem : result) {
+                    cartDtoList.add(new CartItemDetailDto(
+                            cartItem.getProductId(),
+                            "sdasd",
+                            "45",
+                            cartItem.getQuantity(),
+                            new BigDecimal("10.00"),
+                            cartItem.getSelected()));
+                }
+                cartCache.put("user_" + userId, cartDtoList);
             }
-            return result;
+            return cartDtoList;
         } catch (Exception e) {
             log.error("查询用户购物车失败，用户ID: {}", userId, e);
             return List.of();
