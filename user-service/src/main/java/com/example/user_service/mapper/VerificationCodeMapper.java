@@ -1,6 +1,6 @@
 package com.example.user_service.mapper;
 
-import com.example.user_service.entity.VerificationCode;
+import com.example.user_service.DO.VerificationCode;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

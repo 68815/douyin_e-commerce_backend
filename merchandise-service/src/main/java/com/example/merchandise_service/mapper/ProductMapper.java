@@ -1,7 +1,7 @@
 package com.example.merchandise_service.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.merchandise_service.entity.Product;
+import com.example.merchandise_service.DO.Product;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;

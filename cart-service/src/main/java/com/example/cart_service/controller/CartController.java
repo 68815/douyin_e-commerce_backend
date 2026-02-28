@@ -1,6 +1,6 @@
 package com.example.cart_service.controller;
 
-import com.example.cart_service.dto.CartItemDetailDto;
+import com.example.commonmodule.dto.CartItemDetailDto;
 import com.example.cart_service.service.ICartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

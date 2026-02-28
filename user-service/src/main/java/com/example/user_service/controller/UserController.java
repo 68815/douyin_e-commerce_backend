@@ -1,10 +1,10 @@
 package com.example.user_service.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
-import com.example.user_service.dto.LoginRequest;
-import com.example.user_service.dto.RegisterRequest;
-import com.example.user_service.dto.UpdateRequest;
-import com.example.user_service.entity.User;
+import com.example.user_service.request.LoginRequest;
+import com.example.user_service.request.RegisterRequest;
+import com.example.user_service.request.UpdateRequest;
+import com.example.user_service.DO.User;
 import com.example.user_service.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

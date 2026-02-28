@@ -1,6 +1,6 @@
 package com.example.order_service.mapper;
 
-import com.example.order_service.entity.Order;
+import com.example.order_service.DO.Order;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 

@@ -12,9 +12,10 @@ version = '0.0.1-SNAPSHOT'
 description = 'common-module'
 
 dependencies {
-    implementation libs.spring.boot.starter
-    implementation libs.dotenv.java
-    implementation libs.jetbrains.annotations
+    api libs.spring.boot.starter
+    api libs.spring.cloud.starter.openfeign
+    api libs.dotenv.java
+    api libs.jetbrains.annotations
     compileOnly libs.lombok
     annotationProcessor libs.lombok
     testImplementation libs.spring.boot.starter.test

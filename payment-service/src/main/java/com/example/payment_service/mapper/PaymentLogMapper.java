@@ -1,7 +1,7 @@
 package com.example.payment_service.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.payment_service.entity.PaymentLog;
+import com.example.payment_service.DO.PaymentLog;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

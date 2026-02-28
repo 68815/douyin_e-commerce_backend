@@ -1,8 +1,8 @@
 package com.example.cart_service.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.cart_service.dto.CartItemDetailDto;
-import com.example.cart_service.entity.CartItem;
+import com.example.commonmodule.dto.CartItemDetailDto;
+import com.example.cart_service.DO.CartItem;
 
 import java.util.List;
 

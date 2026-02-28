@@ -3,9 +3,9 @@ package com.example.user_service.service.impl;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.user_service.dto.UpdateRequest;
-import com.example.user_service.entity.User;
-import com.example.user_service.entity.VerificationCode;
+import com.example.user_service.request.UpdateRequest;
+import com.example.user_service.DO.User;
+import com.example.user_service.DO.VerificationCode;
 import com.example.user_service.mapper.UserMapper;
 import com.example.user_service.mapper.VerificationCodeMapper;
 import com.example.user_service.service.IUserService;
@@ -29,16 +29,16 @@ import java.util.Random;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
 
-    @Autowired
-    private UserMapper userMapper;
-    
-    @Autowired
-    private VerificationCodeMapper verificationCodeMapper;
-    
-    @Autowired
-    private UserBloomFilterService userBloomFilterService;
+    private final UserMapper userMapper;
+    private final VerificationCodeMapper verificationCodeMapper;
+    private final UserBloomFilterService userBloomFilterService;
 
-
+    @Autowired
+    public UserServiceImpl(UserBloomFilterService userBloomFilterService, UserMapper userMapper, VerificationCodeMapper verificationCodeMapper) {
+        this.userBloomFilterService = userBloomFilterService;
+        this.userMapper = userMapper;
+        this.verificationCodeMapper = verificationCodeMapper;
+    }
     @Override
     public User createUserByEmail(String email, String password, String username) {
         // 使用布隆过滤器进行快速预检查

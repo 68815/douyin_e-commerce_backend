@@ -1,7 +1,7 @@
 package com.example.user_service.service;
 
-import com.example.user_service.dto.UpdateRequest;
-import com.example.user_service.entity.User;
+import com.example.user_service.request.UpdateRequest;
+import com.example.user_service.DO.User;
 
 import java.security.AuthProvider;
 

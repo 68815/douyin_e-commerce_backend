@@ -1,8 +1,8 @@
 package com.example.merchandise_service.service;
 
-import com.example.merchandise_service.dto.PageResponse;
-import com.example.merchandise_service.dto.ProductResponse;
-import com.example.merchandise_service.dto.ProductSearchRequest;
+import com.example.commonmodule.dto.PageResponse;
+import com.example.commonmodule.dto.ProductResponse;
+import com.example.commonmodule.dto.ProductSearchRequest;
 
 import java.util.List;
 

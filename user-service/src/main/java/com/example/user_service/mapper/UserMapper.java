@@ -2,7 +2,7 @@ package com.example.user_service.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import com.example.user_service.entity.User;
+import com.example.user_service.DO.User;
 /**
  * <p>
  *  Mapper 接口

@@ -4,7 +4,7 @@ package com.example.order_service.service.Impl;
 import com.example.order_service.mapper.OrderMapper;
 import com.example.order_service.service.IOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.order_service.entity.Order;
+import com.example.order_service.DO.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
