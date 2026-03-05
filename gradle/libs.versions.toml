@@ -89,6 +89,7 @@ sa-token-redis-jackson = { group = "cn.dev33", name = "sa-token-redis-jackson", 
 commons-pool2 = { group = "org.apache.commons", name = "commons-pool2" }
 commons-codec = { group = "commons-codec", name = "commons-codec", version = "1.17.2" }
 redisson = { group = "org.redisson", name = "redisson-spring-boot-starter", version = "4.2.0" }
+redisson-spring-data = { group = "org.redisson", name = "redisson-spring-cache", version = "4.2.0" }
 
 # ===== RabbitMQ =====
 spring-boot-starter-amqp = { group = "org.springframework.boot", name = "spring-boot-starter-amqp", version.ref = "spring-rabbit" }

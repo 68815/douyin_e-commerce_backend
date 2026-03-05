@@ -12,6 +12,7 @@ import com.example.merchandise_service.mapper.ProductMapper;
 import com.example.merchandise_service.service.IProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -37,6 +38,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
+    @Cacheable(value = "products", key = "'all:' + #page + ':' + #size")
     public PageResponse<ProductResponse> getAllProducts(Integer page, Integer size) {
         Page<Product> productPage = new Page<>(page, size);
         IPage<Product> pageResult = productMapper.selectPage(productPage, null);
@@ -49,8 +51,8 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
+    @Cacheable(value = "products", key = "'quantity:' + #quantity")
     public List<ProductResponse> getSpecifyQuantity(Integer quantity) {
-        // 获取指定数量的商品，按创建时间倒序排列
         Page<Product> productPage = new Page<>(1, quantity);
         IPage<Product> pageResult = productMapper.selectPage(productPage, 
                 lambdaQuery()
@@ -66,14 +68,11 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     public PageResponse<ProductResponse> getProductsBySearch(ProductSearchRequest request) {
         Page<Product> productPage = new Page<>(request.getPage(), request.getSize());
         
-        // 构建查询条件
         QueryWrapper<Product> queryWrapper = new QueryWrapper<>();
 
-        // 关键词搜索 - 性能优化版本
         String keyword = request.getKeyword();
         if (keyword != null && !keyword.trim().isEmpty()) {
             keyword = keyword.trim();
-            // 使用全文索引优化，优先匹配商品名称
             String finalKeyword = keyword;
             queryWrapper.and(wrapper -> wrapper
                     .like("product_name", finalKeyword)
@@ -81,27 +80,22 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
                     .like("product_description", finalKeyword));
         }
 
-        // 分类筛选
         if (request.getCategoryId() != null) {
             queryWrapper.eq("category_id", request.getCategoryId());
         }
 
-        // 状态筛选
         if (request.getStatus() != null) {
             queryWrapper.eq("status", request.getStatus());
         }
 
-        // 热销筛选
         if (request.getIsHot() != null) {
             queryWrapper.eq("is_hot", request.getIsHot());
         }
 
-        // 新品筛选
         if (request.getIsNew() != null) {
             queryWrapper.eq("is_new", request.getIsNew());
         }
 
-        // 排序
         if (request.getSortBy() != null) {
             switch (request.getSortBy()) {
                 case "price_asc":
@@ -133,11 +127,11 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
 
     @Override
     public PageResponse<ProductResponse> getProductsByFilter(ProductSearchRequest request) {
-        // 筛选功能与搜索功能共用同一个方法，可以根据需要分离
         return getProductsBySearch(request);
     }
 
     @Override
+    @Cacheable(value = "products", key = "'ids:' + #productIds.hashCode()")
     public List<ProductResponse> getProductsByIds(List<Long> productIds) {
         if (productIds == null || productIds.isEmpty()) {
             return Collections.emptyList();
@@ -150,6 +144,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
+    @Cacheable(value = "product", key = "#productId")
     public ProductResponse getProductById(Long productId) {
         Product product = productMapper.selectById(productId);
         if (product != null && product.getStatus() == 1) {
@@ -159,6 +154,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
+    @Cacheable(value = "products", key = "'hot:' + #limit")
     public List<ProductResponse> getHotProducts(Integer limit) {
         Page<Product> productPage = new Page<>(1, limit);
         IPage<Product> pageResult = productMapper.selectPage(productPage,
@@ -174,6 +170,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
+    @Cacheable(value = "products", key = "'new:' + #limit")
     public List<ProductResponse> getNewProducts(Integer limit) {
         Page<Product> productPage = new Page<>(1, limit);
         IPage<Product> pageResult = productMapper.selectPage(productPage,

@@ -2,6 +2,8 @@ package com.example.commonmodule.dto;
 
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -13,7 +15,10 @@ import java.util.List;
  * @since 2026-02-21
  */
 @Data
-public class PageResponse<T> {
+public class PageResponse<T> implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
     
     private List<T> records;
     private Long total;

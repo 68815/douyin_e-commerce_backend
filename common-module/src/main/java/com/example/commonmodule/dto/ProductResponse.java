@@ -2,6 +2,8 @@ package com.example.commonmodule.dto;
 
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -14,7 +16,10 @@ import java.time.LocalDateTime;
  * @since 2026-02-21
  */
 @Data
-public class ProductResponse {
+public class ProductResponse implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
     
     private Long productId;
     private String productName;
