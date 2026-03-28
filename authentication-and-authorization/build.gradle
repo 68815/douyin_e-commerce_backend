@@ -18,6 +18,7 @@ dependencies {
     implementation libs.commons.pool2
     implementation libs.spring.cloud.gateway.server.webflux
     implementation libs.spring.boot.starter.webflux
+    implementation libs.spring.boot.starter.data.redis.reactive
     implementation libs.spring.cloud.starter.loadbalancer
 
     implementation libs.velocity.engine.core
