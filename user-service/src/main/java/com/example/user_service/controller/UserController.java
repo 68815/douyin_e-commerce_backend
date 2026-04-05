@@ -5,6 +5,7 @@ import com.example.user_service.request.LoginRequest;
 import com.example.user_service.request.RegisterRequest;
 import com.example.user_service.request.UpdateRequest;
 import com.example.user_service.DO.User;
+import com.example.user_service.VO.UserVO;
 import com.example.user_service.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -38,7 +39,7 @@ public class UserController {
      * @return 登录结果
      */
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<UserVO> login(@RequestBody LoginRequest loginRequest) {
         String username = loginRequest.getUserName();
         String password = loginRequest.getPassword();
 
@@ -47,10 +48,25 @@ public class UserController {
         }
         User user = userService.login(username, password);
         if (user != null) {
-            return ResponseEntity.ok(user);
+            UserVO userVO = convertToVO(user);
+            return ResponseEntity.ok(userVO);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new User());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new UserVO());
         }
+    }
+
+    private UserVO convertToVO(User user) {
+        UserVO userVO = new UserVO();
+        userVO.setUserId(user.getUserId());
+        userVO.setUserName(user.getUserName());
+        userVO.setUserEmail(user.getUserEmail());
+        userVO.setUserPhoneNumber(user.getUserPhoneNumber());
+        userVO.setRegisterDateTime(user.getRegisterDateTime());
+        userVO.setLatestLoginDateTime(user.getLatestLoginDateTime());
+        userVO.setTotalLoginDays(user.getTotalLoginDays());
+        userVO.setConsecutiveLoginDays(user.getConsecutiveLoginDays());
+        userVO.setTrustScore(user.getTrustScore());
+        return userVO;
     }
 
     /**
@@ -141,9 +157,12 @@ public class UserController {
      * @return 当前用户信息
      */
     @GetMapping("/current")
-    public ResponseEntity<User> getCurrentUser() {
+    public ResponseEntity<UserVO> getCurrentUser() {
         User user = userService.getUserById(StpUtil.getLoginIdAsLong());
-        return ResponseEntity.ok(user);
+        if (user != null) {
+            return ResponseEntity.ok(convertToVO(user));
+        }
+        return ResponseEntity.notFound().build();
     }
 
     /**
@@ -162,10 +181,10 @@ public class UserController {
      * @return 用户信息
      */
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserVO> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
         if (user != null) {
-            return ResponseEntity.ok(user);
+            return ResponseEntity.ok(convertToVO(user));
         } else {
             return ResponseEntity.notFound().build();
         }
