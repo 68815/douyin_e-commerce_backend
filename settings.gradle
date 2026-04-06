@@ -17,6 +17,8 @@ dependencyResolutionManagement {
         maven { url = 'https://repo.spring.io/snapshot' }
         maven { url = 'https://repo.spring.io/milestone' }
         maven { url = 'https://repo.spring.io/release' }
+        maven { url = 'https://maven.aliyun.com/repository/public' }
+        maven { url = 'https://maven.aliyun.com/repository/spring' }
     }
 }
 rootProject.name = 'douyin_e-commerce_backend'

@@ -39,6 +39,10 @@ nacos = "2025.0.0.0"
 # 测试
 junit-platform = "6.0.1"
 
+# 支付
+alipay-sdk = "4.40.328.ALL"
+weixin-pay = "4.7.9-20250103"
+
 
 [libraries]
 # ===== Spring Boot =====
@@ -81,6 +85,7 @@ jetbrains-annotations = { group = "org.jetbrains", name = "annotations", version
 spring-boot-starter-aop = { group = "org.springframework.boot", name = "spring-boot-starter-aop", version.ref = "spring-aop" }
 spring-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
 spring-boot-starter-data-redis-reactive = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis-reactive" }
+spring-boot-starter-data-redis = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis" }
 
 # ===== Sa-Token =====
 sa-token-spring-boot3-starter = { group = "cn.dev33", name = "sa-token-spring-boot3-starter", version.ref = "sa-token" }
@@ -103,6 +108,10 @@ spring-cloud-starter-alibaba-nacos-config = { group = "com.alibaba.cloud", name 
 junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junit-platform" }
 junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit-platform" }
 junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit-platform" }
+
+# ===== Payment =====
+alipay-sdk-java = { group = "com.alipay.sdk", name = "alipay-sdk-java", version.ref = "alipay-sdk" }
+weixin-pay = { group = "com.github.binarywang", name = "weixin-java-pay", version.ref = "weixin-pay" }
 
 [bundles]
 web-bundle = ["spring-boot-starter-web", "spring-boot-starter-actuator"]

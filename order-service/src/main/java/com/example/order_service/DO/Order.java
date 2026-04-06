@@ -2,16 +2,15 @@ package com.example.order_service.DO;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * 订单实体类
- */
 @Data
+@TableName("`order`")
 public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,6 +19,8 @@ public class Order implements Serializable {
     private Long id;
 
     private String orderNo;
+
+    private String idempotentKey;
 
     private Long userId;
 

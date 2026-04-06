@@ -3,6 +3,7 @@ package com.example.payment_service.VO;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * 支付结果VO
@@ -11,17 +12,32 @@ import java.math.BigDecimal;
 @Data
 public class PaymentResultVO {
     
-    private Boolean success;            // 支付是否成功
-    private String message;             // 结果消息
-    private String paymentNo;           // 支付流水号
-    private String orderNo;             // 订单号
-    private Long userId;                // 用户ID
-    private BigDecimal amount;          // 支付金额
-    private Integer paymentStatus;      // 支付状态
-    private String paymentMethod;       // 支付方式
-    private String transactionId;       // 第三方交易ID
-    private String payUrl;              // 支付链接（如果是待支付状态）
+    private Boolean success;
+    private String message;
+    private String paymentNo;
+    private String orderNo;
+    private Long userId;
+    private BigDecimal amount;
+    private Integer paymentStatus;
+    private String paymentMethod;
+    private String transactionId;
+    private String payUrl;
+    private Map<String, String> data;
     
+    public static PaymentResultVO success(String message, Map<String, String> data) {
+        PaymentResultVO vo = new PaymentResultVO();
+        vo.setSuccess(true);
+        vo.setMessage(message);
+        vo.setData(data);
+        if (data != null) {
+            vo.setPaymentNo(data.get("paymentNo"));
+            if (data.get("amount") != null) {
+                vo.setAmount(new BigDecimal(data.get("amount")));
+            }
+        }
+        return vo;
+    }
+
     public static PaymentResultVO success(String paymentNo, String orderNo, BigDecimal amount) {
         PaymentResultVO vo = new PaymentResultVO();
         vo.setSuccess(true);

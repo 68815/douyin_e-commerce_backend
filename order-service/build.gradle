@@ -20,7 +20,14 @@ dependencies {
     implementation libs.dotenv.java
     implementation libs.spring.cloud.starter.alibaba.nacos.discovery
     implementation libs.spring.cloud.starter.alibaba.nacos.config
+    implementation libs.spring.cloud.starter.openfeign
     implementation libs.jetbrains.annotations
+    implementation libs.sa.token.spring.boot3.starter
+    implementation libs.sa.token.redisson
+    implementation libs.redisson
+    implementation libs.redisson.spring.data
+    implementation libs.spring.boot.starter.data.redis
+    implementation libs.commons.pool2
     compileOnly libs.lombok
     annotationProcessor libs.lombok
     implementation libs.spring.boot.starter

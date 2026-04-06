@@ -33,7 +33,6 @@ public class ProductController {
 
     /**
      * 获取所有商品（分页）
-     * 对应前端接口: /products/getAll
      */
     @GetMapping("/getAll")
     public ResponseEntity<PageResponse<ProductResponse>> getAllProducts(

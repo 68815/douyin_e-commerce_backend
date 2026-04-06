@@ -1,42 +1,29 @@
 package com.example.order_service.service;
 
 import com.example.order_service.DO.Order;
+import com.example.order_service.DO.OrderItem;
+import com.example.order_service.dto.CreateOrderRequest;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 
-/**
- * 订单服务接口
- */
 public interface IOrderService extends IService<Order> {
 
-    /**
-     * 创建订单
-     */
-    Order createOrder(Long userId, List<Long> cartIds);
+    Order createOrder(Long userId, CreateOrderRequest request);
 
-    /**
-     * 获取用户订单列表
-     */
     List<Order> getUserOrders(Long userId);
 
-    /**
-     * 取消订单
-     */
-    boolean cancelOrder(Long orderId);
+    Order getOrderDetail(Long orderId, Long userId);
 
-    /**
-     * 支付订单
-     */
-    boolean payOrder(Long orderId, String paymentMethod);
+    List<OrderItem> getOrderItems(Long orderId, Long userId);
 
-    /**
-     * 获取订单详情
-     */
-    Order getOrderDetail(Long orderId);
+    boolean cancelOrder(Long orderId, Long userId);
 
-    /**
-     * 定时取消未支付订单
-     */
+    boolean payOrder(Long orderId, Long userId, String paymentMethod);
+
+    boolean confirmOrder(Long orderId, Long userId);
+
     void cancelUnpaidOrders();
+
+    boolean existsByOrderNo(String orderNo);
 }
