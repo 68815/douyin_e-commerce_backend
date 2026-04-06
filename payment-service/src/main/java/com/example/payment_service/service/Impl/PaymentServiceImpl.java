@@ -2,6 +2,7 @@ package com.example.payment_service.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.commonmodule.client.CartFeignClient;
+import com.example.commonmodule.client.OrderFeignClient;
 import com.example.commonmodule.client.ProductFeignClient;
 import com.example.commonmodule.dto.CartItemDetailDto;
 import com.example.commonmodule.dto.ProductResponse;
@@ -47,6 +48,7 @@ public class PaymentServiceImpl implements IPaymentService {
     private final StringRedisTemplate redisTemplate;
     private final ProductFeignClient productFeignClient;
     private final CartFeignClient cartFeignClient;
+    private final OrderFeignClient orderFeignClient;
 
     private static final String IDEMPOTENCY_KEY_PREFIX = "payment:idempotency:";
     private static final int IDEMPOTENCY_EXPIRE_SECONDS = 3600;
@@ -54,14 +56,15 @@ public class PaymentServiceImpl implements IPaymentService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public PaymentResultVO processDirectPurchase(DirectPurchaseRequest request) {
-        String paymentNo = generatePaymentNo();
-        String idempotencyKey = IDEMPOTENCY_KEY_PREFIX + paymentNo;
+        String orderNo = orderFeignClient.getOrderNoById(request.getOrderId());
+        String idempotencyKey = IDEMPOTENCY_KEY_PREFIX + orderNo;
 
         if (!checkIdempotency(idempotencyKey)) {
             return PaymentResultVO.failed("重复请求，请稍后重试");
         }
 
         try {
+            String paymentNo = generatePaymentNo(orderNo);
             Long amount = calculateProductPrice(request.getProductId(), request.getQuantity());
 
             PaymentStrategy strategy = paymentStrategyFactory.getStrategy(request.getPaymentMethod());
@@ -76,7 +79,7 @@ public class PaymentServiceImpl implements IPaymentService {
 
             Payment payment = new Payment();
             payment.setPaymentNo(paymentNo);
-            payment.setOrderId(request.getProductId());
+            payment.setOrderId(request.getOrderId());
             payment.setUserId(request.getUserId());
             payment.setAmount(new BigDecimal(amount).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP));
             payment.setPaymentMethod(request.getPaymentMethod());
@@ -100,15 +103,15 @@ public class PaymentServiceImpl implements IPaymentService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public PaymentResultVO processCartCheckout(CartCheckoutRequest request) {
-        String paymentNo = generatePaymentNo();
-        String cartItems = String.join(",", request.getCartItemIds().stream().map(String::valueOf).toList());
-        String idempotencyKey = IDEMPOTENCY_KEY_PREFIX + paymentNo;
+        String orderNo = orderFeignClient.getOrderNoById(request.getOrderId());
+        String idempotencyKey = IDEMPOTENCY_KEY_PREFIX + orderNo;
 
         if (!checkIdempotency(idempotencyKey)) {
             return PaymentResultVO.failed("重复请求，请稍后重试");
         }
 
         try {
+            String paymentNo = generatePaymentNo(orderNo);
             Long amount = calculateCartTotal(request.getUserId(), request.getCartItemIds());
 
             PaymentStrategy strategy = paymentStrategyFactory.getStrategy(request.getPaymentMethod());
@@ -123,7 +126,7 @@ public class PaymentServiceImpl implements IPaymentService {
 
             Payment payment = new Payment();
             payment.setPaymentNo(paymentNo);
-            payment.setOrderId(request.getUserId());
+            payment.setOrderId(request.getOrderId());
             payment.setUserId(request.getUserId());
             payment.setAmount(new BigDecimal(amount).divide(new BigDecimal(100), 2, RoundingMode.HALF_UP));
             payment.setPaymentMethod(request.getPaymentMethod());
@@ -261,8 +264,8 @@ public class PaymentServiceImpl implements IPaymentService {
         return Boolean.TRUE.equals(result);
     }
 
-    private String generatePaymentNo() {
-        return "PAY" + System.currentTimeMillis() + String.format("%04d", (int) (Math.random() * 10000));
+    private String generatePaymentNo(String orderNo) {
+        return "PAY" + orderNo + System.currentTimeMillis();
     }
 
     private Long calculateProductPrice(Long productId, Integer quantity) {
