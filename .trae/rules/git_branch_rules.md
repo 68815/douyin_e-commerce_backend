@@ -33,7 +33,6 @@ Example:
 feat(payment): integrate WeChat Pay
 - Add SDK
 - Implement API
-Closes PROJ-123
 ```
 
 ## Workflow
@@ -43,3 +42,6 @@ git commit -m "feat(user): add login"
 git checkout develop
 git merge --no-ff feature/user-login
 ```
+
+## AI Assistant Rules
+DO NOT push directly. Always ask the user first
