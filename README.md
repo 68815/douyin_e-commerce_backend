@@ -41,14 +41,15 @@ NACOS_PASSWORD=your_nacos_password
 ### 2. Nacos配置中心设置
 需要在Nacos中创建以下配置文件:
 
-1. `authentication-and-authorization-properties` - 认证服务数据库配置
-2. `user-service-properties` - 用户服务数据库配置
-3. `merchandise-service-properties` - 商品服务数据库配置
-4. `cart-service-properties` - 购物车服务数据库配置
-5. `order-service-properties` - 订单服务数据库配置
-6. `payment-service-properties` - 支付服务数据库配置
-7. `sa-token-properties` - Sa-Token配置
-8. `application.properties` - 公共配置
+1. `user-service-properties` - 用户服务数据库配置
+2. `merchandise-service-properties` - 商品服务数据库配置
+3. `cart-service-properties` - 购物车服务数据库配置
+4. `order-service-properties` - 订单服务数据库配置
+5. `payment-service-properties` - 支付服务数据库配置
+6. `sa-token-properties` - Sa-Token配置
+7. `redis-properties` - Redis配置
+8. `Elasticsearch-properties` - Elasticsearch配置
+9. `openfeign-properties` - OpenFeign配置
 
 ### 3. 数据库配置示例
 在Nacos配置文件中添加以下内容:
@@ -61,9 +62,6 @@ spring:
     username: ${DB_USER}
     password: ${DB_PASSWORD}
 ```
-
-### 4. 验证服务
-访问 `http://localhost:8081` 查看网关是否正常工作。
 
 ## 联系方式
 
