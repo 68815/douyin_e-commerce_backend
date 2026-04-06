@@ -43,6 +43,9 @@ junit-platform = "6.0.1"
 alipay-sdk = "4.40.328.ALL"
 weixin-pay = "4.7.9-20250103"
 
+# 安全修复 - XXE漏洞 (CVE-2020-10683)
+dom4j = "2.1.4"
+
 
 [libraries]
 # ===== Spring Boot =====
@@ -112,6 +115,10 @@ junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engi
 # ===== Payment =====
 alipay-sdk-java = { group = "com.alipay.sdk", name = "alipay-sdk-java", version.ref = "alipay-sdk" }
 weixin-pay = { group = "com.github.binarywang", name = "weixin-java-pay", version.ref = "weixin-pay" }
+
+# ===== Security Fixes =====
+# Force dom4j to safe version to fix XXE vulnerability (CVE-2020-10683)
+dom4j = { group = "org.dom4j", name = "dom4j", version.ref = "dom4j" }
 
 [bundles]
 web-bundle = ["spring-boot-starter-web", "spring-boot-starter-actuator"]
