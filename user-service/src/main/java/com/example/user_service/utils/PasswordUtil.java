@@ -120,7 +120,7 @@ public class PasswordUtil {
         }
         
         // 必须包含特殊字符
-        if (!password.matches(".*[^A-Za-z0-9].*")) {
+        if (!password.matches(".*?[^A-Za-z0-9].*")) {
             return false;
         }
         
