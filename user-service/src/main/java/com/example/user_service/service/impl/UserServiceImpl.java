@@ -142,6 +142,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             user.setLatestLoginDateTime(LocalDateTime.now());
             userMapper.updateById(user);
             StpUtil.login(user.getUserId());
+            user.setUserPassword(null);
             return user;
         }
         return null;
